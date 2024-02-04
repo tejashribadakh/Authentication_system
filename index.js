@@ -56,20 +56,6 @@ app.use('/auth/logout',(req,res)=>
     res.send("see you again");
 })
 
-/*collection.methods.generateAuthToken=async function()
-{
-    try{
-        console.log(this._id);
-        const token=jwt.sign({id:this._id.toString()},process.env.secret);
-        this.tokens=this.tokens.concat({token:token})
-        await this.save();
-        return token;
-    }catch(error){
-        res.send("error"+error);
-        console.error(error);
-    }
-}
-*/
 app.get('/auth/google', passport.authenticate('google', { scope: ['email','profile'] }));
 
 app.get('/auth/google/callback', passport.authenticate('google', { session: false }), (req, res) => 
@@ -80,8 +66,6 @@ app.get('/auth/google/callback', passport.authenticate('google', { session: fals
 app.get('/protected', passport.authenticate('jwt', { session: false }), (req, res) => {
     res.json({ message: 'Access granted!', user: req.user });
 });
-
-
 
 app.set("view engine","ejs");
 app.use(express.urlencoded({extended:false}))
@@ -121,52 +105,16 @@ catch{
     res.send("wrong details");
 }
 })
-
-
 app.post("/update",async (req,res)=>
 {
   try{
     const check=await collection.updateOne({name:req.body.username})
     console.log(check);
-    /*if(check.password===req.body.password)
-    {
-        res.render("home")
-    }
-    else{
-        res.send("wrong password");
-    }*/
 }
 catch{
     res.send("wrong details");
 }
 })
-
-
- 
-/*app.post('/add',(req,res,next)=>
-{
-    const username=req.body.username;
-    const password=req.body.password
-})
-/*const updateData=async()=>
-{
-let d=await collection();
-let result=data.updateOne({
-    {
-        usern
-    }
-})
- }*/
-
-
-/*app.get("/home",async(req,res)=>
-{
-    const data=await collection.find({})
-    res.render('home',{data});
-    //res.json({success:true, data:data})
-})
-
-
 
 app.post("/create",async(req,res)=>
 {
@@ -195,7 +143,7 @@ app.delete("/delete/:id",async(req,res)=>
    // console.log(rest)
     const data=await collection.deleteOne({_id:id})
     res.send({success:true,message:"data deleted",data:data})
-})*/
+})
 
 
 app.get("/logout",(req,res)=>
